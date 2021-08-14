@@ -1,7 +1,15 @@
 .container {
-  width: 50%;
   padding: 0.2em;
 }
+
+.container.list {
+  width: 100%;
+}
+
+.container.grid {
+  width: 50%;
+}
+
 .video {
   display: flex;
   align-items: center;
@@ -12,7 +20,7 @@
 }
 
 .video:hover {
-  transform: scale(1.05);
+  transform: scale(1.03);
 }
 
 .thumbnail {
