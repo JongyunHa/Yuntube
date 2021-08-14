@@ -8,6 +8,7 @@ function App({ youtube }) {
   const [videos, setVideos] = useState([]);
   const [selectedVideo, setSeletedVideo] = useState(null);
   const search = async (query) => {
+    setSeletedVideo(null);
     const data = await youtube.search(query);
     setVideos(data);
   };
