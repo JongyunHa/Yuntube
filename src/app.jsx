@@ -1,36 +1,35 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import SearchHeader from './components/search_header';
-import VideoDetail from './components/video_detail';
 import styles from './app.module.css';
 import VideoList from './components/video_list';
+import SearchHeader from './components/search_header';
+import VideoDetail from './components/video_detail';
 
 function App({ youtube }) {
   const [videos, setVideos] = useState([]);
-  const [selectedVideo, setSeletedVideo] = useState(null);
-  const search = async (query) => {
-    setSeletedVideo(null);
-    const data = await youtube.search(query);
-    setVideos(data);
+  const [selectedVideo, setSelectedVideo] = useState(null);
+
+  const selectVideo = (video) => {
+    setSelectedVideo(video);
   };
 
-  const getYoutubeVideos = useCallback(async () => {
-    const data = await youtube.mostPopular();
-    setVideos(data);
-  }, []);
-
-  const selectVideo = useCallback(
-    (video) => {
-      setSeletedVideo(video);
+  const search = useCallback(
+    (query) => {
+      setSelectedVideo(null);
+      youtube
+        .search(query) //
+        .then((videos) => setVideos(videos));
     },
-    [videos],
+    [youtube],
   );
-
   useEffect(() => {
-    getYoutubeVideos();
-  }, []);
+    youtube
+      .mostPopular() //
+      .then((videos) => setVideos(videos));
+  }, [youtube]);
+
   return (
     <div className={styles.app}>
-      <SearchHeader search={search} />
+      <SearchHeader onSearch={search} />
       <section className={styles.content}>
         {selectedVideo && (
           <div className={styles.detail}>
@@ -43,7 +42,6 @@ function App({ youtube }) {
             onVideoClick={selectVideo}
             display={selectedVideo ? 'list' : 'grid'}
           />
-          ;
         </div>
       </section>
     </div>
